@@ -1,0 +1,12 @@
+Header header
+CurvePoint[] points
+bool is_recommend
+float64 velocity_limitation
+int32 cut_idx
+int32 last_idx
+bool is_final
+int32 car_idx
+int32 vehicle_position_idx
+bool reverse_allowing
+int32 is_obstacle_stop
+bool is_solid_line

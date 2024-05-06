@@ -1,0 +1,5 @@
+<library path="lib/libmcrplanner_plugin_lib">
+    <class name="mcrp_global_planner/MCRPlanner" type="global_planner::MCRPlanner" base_class_type="nav_core::BaseGlobalPlanner">
+        <description>This is a global planner plugin with mcrp.</description>
+    </class>
+</library>

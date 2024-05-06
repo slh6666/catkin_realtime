@@ -1,0 +1,40 @@
+<launch>
+    <!-- 参数 -->
+    <arg name="scene_name" default="obstacle"/>
+    <arg name="test_num" value="1000" />
+
+    <!-- rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find min_collision_risk_planner)/rviz/test.rviz" />
+
+    <!-- 规划程序 -->
+    <node pkg="min_collision_risk_planner" name="min_collision_risk_planner_node" type="min_collision_risk_planner_node">
+        <!-- 订阅消息 -->
+        <param name="odom_topic" value="/odom" />
+        <param name="destination_topic" value="/move_base_simple/goal" />
+        <param name="costmap_topic" value="/costmap_generation/costmap_2d" />
+        <!-- 发布消息 -->
+        <param name="init_path_topic" value="/mcrp/init_path" />
+        <param name="key_vertices_topic" value="/mcrp/key_vertices" />
+        <param name="processed_path_topic" value="/mcrp/processed_path" />
+        <param name="optimized_path_topic" value="/mcrp/optimized_path" />
+        <param name="optimized_key_vertices_topic" value="/mcrp/optimized_key_vertices" />
+        <param name="planning_result_flag_topic" value="/mcrp/planning_result_flag" />
+        <!-- 常量 -->
+        <!-- 是否保存日志信息 -->
+        <param name="save_logs_flag" value="true" />
+    </node>
+
+    <!-- 重新设置机器人 -->
+    <node pkg="min_collision_risk_planner" name="reset_robot_node" type="setRobotPose.py">
+        <param name="simulation_model_name" value="turtlebot3_waffle" />
+    </node>
+
+    <!-- 随机起点和终点生成程序 -->
+    <node pkg="min_collision_risk_planner" name="generate_init_and_goal_node" type="generateTestInitAndGoal.py" output="screen">
+        <param name="costmap_topic" value="/costmap_generation/costmap_2d" />
+        <param name="odom_topic" value="/odom" />
+        <param name="planning_result_topic" value="/mcrp/planning_result_flag" />
+        <param name="scene_name" value="$(arg scene_name)" />
+        <param name="test_num" value="$(arg test_num)" />
+    </node>
+</launch>

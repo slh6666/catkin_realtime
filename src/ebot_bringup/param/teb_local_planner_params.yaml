@@ -1,0 +1,106 @@
+TebLocalPlannerROS:
+ 
+ odom_topic: /robot1/bicycle_wheel_odometry/odom
+ map_frame: map
+#  map_frame: odom
+ 
+ # Trajectory
+ 
+ teb_autosize: True
+ dt_ref: 0.3
+ dt_hysteresis: 0.1
+ global_plan_overwrite_orientation: True
+ max_global_plan_lookahead_dist: 3.0
+ feasibility_check_no_poses: 5
+ 
+ # Robot
+ 
+ max_vel_x: 0.3
+ max_vel_x_backwards: 0.2
+ max_vel_theta: 0.4
+ acc_lim_x: 0.5
+ acc_lim_theta: 1.0
+
+ #***car-like Parameter***  0.4 0.2 轮距0.32
+ min_turning_radius: 0.5
+
+ wheelbase: 0.32
+ cmd_angle_instead_rotvel: True
+# footprint_model/type: "circular"
+# footprint_model/radius: 0.40 # for type "circular"
+ footprint_model/type: "polygon"
+ footprint_model/vertices: [[-0.2, -0.1], [0.2, -0.1], [0.2, 0.1], [-0.2, 0.1]]
+
+ control_look_ahead_poses: 4
+ # ***********************
+
+ # GoalTolerance
+ 
+ xy_goal_tolerance: 0.2
+ yaw_goal_tolerance: 0.2
+ free_goal_vel: False
+ 
+ # Obstacles
+ 
+ min_obstacle_dist: 0.2  #0.45
+ include_costmap_obstacles: True
+ costmap_obstacles_behind_robot_dist: 1.0
+ obstacle_poses_affected: 30
+ costmap_converter_plugin: ""
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 5
+ 
+ # Optimization
+ 
+#  no_inner_iterations: 5
+#  no_outer_iterations: 4
+#  optimization_activate: True
+#  optimization_verbose: False
+#  penalty_epsilon: 0.1
+#  weight_max_vel_x: 2
+#  weight_max_vel_theta: 1
+#  weight_acc_lim_x: 1
+#  weight_acc_lim_theta: 1
+#  weight_kinematics_nh: 1000
+#  weight_kinematics_forward_drive: 1
+#  weight_kinematics_turning_radius: 1
+#  weight_optimaltime: 1
+#  weight_obstacle: 300   #50
+#  weight_dynamic_obstacle: 10 # not in use yet
+#  selection_alternative_time_cost: False # not in use yet
+
+ no_inner_iterations: 4
+ no_outer_iterations: 3
+ optimization_activate: True
+ optimization_verbose: False
+ penalty_epsilon: 0.1
+ obstacle_cost_exponent: 4
+ weight_max_vel_x: 2
+ weight_max_vel_theta: 1
+ weight_acc_lim_x: 1
+ weight_acc_lim_theta: 1
+ weight_kinematics_nh: 1000
+ weight_kinematics_forward_drive: 1
+ weight_kinematics_turning_radius: 1
+ weight_optimaltime: 1 # must be > 0
+ weight_shortest_path: 0
+ weight_obstacle: 100
+ weight_inflation: 0.2
+ weight_dynamic_obstacle: 10 # not in use yet
+ weight_dynamic_obstacle_inflation: 0.2
+ weight_viapoint: 1
+ weight_adapt_factor: 2
+ 
+ # Homotopy Class Planner
+ 
+ enable_homotopy_class_planning: False
+ enable_multithreading: True
+ simple_exploration: False
+ max_number_classes: 4
+ roadmap_graph_no_samples: 15
+ roadmap_graph_area_width: 5
+ h_signature_prescaler: 0.5
+ h_signature_threshold: 0.1
+ obstacle_keypoint_offset: 0.1
+ obstacle_heading_threshold: 0.45
+ visualize_hc_graph: False

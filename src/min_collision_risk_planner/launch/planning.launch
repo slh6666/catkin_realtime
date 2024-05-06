@@ -1,0 +1,40 @@
+<launch>
+    <!-- static map -->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find costmap_generation)/yaml/obstacle1.yaml">
+        <param name="frame_id" value="odom" />
+    </node >
+
+    <!-- 全局地图程序 -->
+    <node pkg="costmap_generation" name="costmap_generation_node" type="costmap_generation_node" output="screen">
+        <param name="static_map_topic" value="/map"/>
+        <param name="costmap_pub_topic" value="/costmap_generation/costmap_2d"/>
+        <rosparam file="$(find costmap_generation)/yaml/sensor.yaml" command="load" />
+    </node>
+
+    <!-- rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find min_collision_risk_planner)/rviz/test.rviz" />
+
+    <!-- 规划程序 -->
+    <node pkg="min_collision_risk_planner" name="min_collision_risk_planner_node" type="min_collision_risk_planner_node" output="screen">
+        <!-- 订阅消息 -->
+        <param name="odom_topic" value="/p3dx/odom" />
+        <param name="destination_topic" value="/move_base_simple/goal" />
+        <param name="costmap_topic" value="/costmap_generation/costmap_2d" />
+        <!-- 发布消息 -->
+        <param name="init_path_topic" value="/mcrp/init_path" />
+        <param name="key_vertices_topic" value="/mcrp/key_vertices" />
+        <param name="processed_path_topic" value="/mcrp/processed_path" />
+        <param name="optimized_path_topic" value="/mcrp/optimized_path" />
+        <param name="optimized_key_vertices_topic" value="/mcrp/optimized_key_vertices" />
+        <param name="planning_result_flag_topic" value="/mcrp/planning_result_flag" />
+        <param name="navigation_path_topic" value="/mcrp/navigation_path" />
+        <!-- 常量 -->
+        <!-- 是否保存日志信息 -->
+        <param name="save_logs_flag" value="false" />
+    </node>
+
+    <!-- 重新设置机器人 -->
+    <node pkg="min_collision_risk_planner" name="reset_robot_node" type="setRobotPose.py" output="screen">
+        <param name="simulation_model_name" value="p3dx" />
+    </node>
+</launch>
