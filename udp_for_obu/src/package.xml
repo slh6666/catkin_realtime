@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>simple_udp</name>
+  <version>0.0.0</version>
+  <description>The simple_udp package</description>
+
+  <maintainer email="nuc@todo.todo">nuc</maintainer>
+
+  <license>TODO</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+</package>
